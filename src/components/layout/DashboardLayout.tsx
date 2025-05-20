@@ -1,6 +1,5 @@
 'use client'
 
-import { Box, Flex, VStack, HStack, Text, Icon, Link as ChakraLink } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { FiHome, FiFileText, FiUser, FiSettings } from 'react-icons/fi'
@@ -16,53 +15,44 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const pathname = usePathname()
 
   return (
-    <Flex h="100vh">
+    <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <Box
-        w="250px"
-        bg="gray.50"
-        borderRight="1px"
-        borderColor="gray.200"
-        py={6}
-      >
-        <VStack spacing={6} align="stretch">
-          <Box px={6}>
-            <Text fontSize="xl" fontWeight="bold" color="primary">
+      <aside className="w-64 bg-white border-r border-gray-200">
+        <div className="flex flex-col h-full">
+          <div className="p-6">
+            <Link href="/" className="text-xl font-bold text-primary-500 hover:no-underline">
               WelfareChain
-            </Text>
-          </Box>
-          <VStack spacing={2} align="stretch">
+            </Link>
+          </div>
+          <nav className="flex-1 px-3 space-y-1">
             {menuItems.map((item) => {
               const isActive = pathname === item.path
+              const Icon = item.icon
               return (
-                <ChakraLink
+                <Link
                   key={item.path}
-                  as={Link}
                   href={item.path}
-                  _hover={{ textDecoration: 'none' }}
-                  bg={isActive ? 'blue.50' : 'transparent'}
-                  color={isActive ? 'blue.600' : 'gray.600'}
+                  className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
+                    ${isActive
+                      ? 'bg-primary-50 text-primary-500'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-primary-500'
+                    }`}
                 >
-                  <HStack
-                    py={3}
-                    px={6}
-                    spacing={3}
-                    _hover={{ bg: 'gray.100' }}
-                  >
-                    <Icon as={item.icon} />
-                    <Text>{item.name}</Text>
-                  </HStack>
-                </ChakraLink>
+                  <Icon className={`w-5 h-5 mr-3 ${isActive ? 'text-primary-500' : 'text-gray-400'}`} />
+                  {item.name}
+                </Link>
               )
             })}
-          </VStack>
-        </VStack>
-      </Box>
+          </nav>
+        </div>
+      </aside>
 
       {/* Main Content */}
-      <Box flex="1" overflow="auto">
-        <Box p={8}>{children}</Box>
-      </Box>
-    </Flex>
+      <main className="flex-1 overflow-auto">
+        <div className="p-8">
+          {children}
+        </div>
+      </main>
+    </div>
   )
 } 

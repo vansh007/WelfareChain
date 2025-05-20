@@ -1,36 +1,33 @@
 # WelfareChain
 
-A blockchain-based welfare distribution system that ensures transparency, accountability, and efficient management of welfare programs.
+WelfareChain is a blockchain-based platform revolutionizing welfare distribution through transparent, secure, and efficient delivery of government schemes to citizens.
 
 ## Features
 
-- Smart contract-based welfare token distribution
-- Ministry and beneficiary management
-- Document verification system
-- Audit logging
-- Modern and responsive UI
-- Real-time transaction tracking
-- AI-powered chatbot for scheme discovery
+- 🔐 Secure wallet-based authentication
+- 📱 Modern, responsive user interface
+- 📊 Real-time dashboard for scheme tracking
+- 📄 Document management system
+- 📈 Analytics and reporting
+- 🔄 Transparent transaction history
 
 ## Tech Stack
 
-- Next.js 13+
-- Chakra UI
-- Hardhat
-- Solidity
-- TypeScript
-- Gemini AI
-- Wagmi
-- Ethers.js
+- **Frontend**: Next.js 14, React, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Authentication**: MetaMask Wallet Integration
+- **State Management**: React Hooks
+- **Blockchain**: Ethereum (MetaMask)
 
-## Prerequisites
+## Getting Started
 
-- Node.js (v16 or higher)
-- npm or yarn
-- MetaMask or any Web3 wallet
-- Hardhat (for local blockchain development)
+### Prerequisites
 
-## Installation
+- Node.js 18.x or later
+- MetaMask browser extension
+- npm or yarn package manager
+
+### Installation
 
 1. Clone the repository:
 
@@ -43,77 +40,59 @@ cd welfarechain
 
 ```bash
 npm install
+# or
+yarn install
 ```
 
-3. Create a `.env` file in the root directory:
+3. Create a `.env.local` file in the root directory and add your environment variables:
 
 ```env
-# Gemini API Configuration
-GEMINI_API_KEY=your_gemini_api_key_here
-
-# Network Configuration
-NEXT_PUBLIC_RPC_URL=http://localhost:8545
-NEXT_PUBLIC_CHAIN_ID=1337
-
-# Contract Addresses (will be filled after deployment)
-NEXT_PUBLIC_WELFARE_TOKEN_ADDRESS=
-NEXT_PUBLIC_WELFARE_REGISTRY_ADDRESS=
-NEXT_PUBLIC_WELFARE_VERIFICATION_ADDRESS=
-NEXT_PUBLIC_WELFARE_AUDIT_ADDRESS=
-NEXT_PUBLIC_WELFARE_DISTRIBUTION_ADDRESS=
-NEXT_PUBLIC_SCHEME_REGISTRY_ADDRESS=
-NEXT_PUBLIC_DOCUMENT_VERIFICATION_ADDRESS=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-## Development
-
-1. Start the local blockchain:
-
-```bash
-npx hardhat node
-```
-
-2. Deploy the smart contracts:
-
-```bash
-npx hardhat run scripts/deploy.ts --network localhost
-```
-
-3. Start the development server:
+4. Start the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deployment
+## Project Structure
 
-### Vercel Deployment
-
-1. Push your code to GitHub
-2. Go to [Vercel](https://vercel.com)
-3. Import your GitHub repository
-4. Configure environment variables in Vercel dashboard
-5. Deploy
-
-### Smart Contract Deployment
-
-1. Update the `.env` file with your production network details
-2. Deploy to the target network:
-
-```bash
-npx hardhat run scripts/deploy.ts --network <network_name>
+```
+welfarechain/
+├── src/
+│   ├── app/                 # Next.js app directory
+│   │   ├── (dashboard)/    # Dashboard routes
+│   │   ├── auth/          # Authentication routes
+│   │   └── api/           # API routes
+│   ├── components/         # React components
+│   │   ├── ui/            # UI components
+│   │   └── layout/        # Layout components
+│   ├── lib/               # Utility functions
+│   └── styles/            # Global styles
+├── public/                # Static assets
+└── package.json          # Project dependencies
 ```
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [MetaMask](https://metamask.io/)

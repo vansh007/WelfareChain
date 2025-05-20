@@ -1,15 +1,14 @@
 'use client'
 
-import { Box } from '@chakra-ui/react'
 import Header from './Header'
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="min-h-screen bg-gray-50">
       <Header />
-      <Box pt="16">
+      <main className="pt-16">
         {children}
-      </Box>
-    </>
+      </main>
+    </div>
   )
 } 

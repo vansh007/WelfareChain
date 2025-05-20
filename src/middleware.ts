@@ -1,35 +1,45 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+
+// List of public routes that don't require authentication
+const publicRoutes = ["/auth/signin", "/auth/signup"];
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request });
+  const { pathname } = request.nextUrl;
 
-  // Protect API routes
-  if (request.nextUrl.pathname.startsWith("/api/")) {
-    if (!token) {
-      return new NextResponse(
-        JSON.stringify({ error: "Authentication required" }),
-        {
-          status: 401,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
+  // Check if the route is public
+  if (publicRoutes.includes(pathname)) {
+    return NextResponse.next();
   }
 
-  // Protect dashboard routes
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/auth/signin", request.url));
-    }
+  // Get the user's address from localStorage
+  const userAddress = request.cookies.get("userAddress")?.value;
+
+  // If no user address is found and trying to access protected routes
+  if (!userAddress && !pathname.startsWith("/auth/")) {
+    // Store the original URL to redirect back after login
+    const url = new URL("/auth/signin", request.url);
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  // If user is authenticated and trying to access auth pages
+  if (userAddress && pathname.startsWith("/auth/")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/api/:path*", "/dashboard/:path*"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 }; 

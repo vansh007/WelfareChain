@@ -1,204 +1,158 @@
-'use client'
+"use client";
 
-import { Box, Container, Heading, Text, Button, VStack, HStack, SimpleGrid, Icon, useColorModeValue, Image, Flex, Badge } from '@chakra-ui/react'
-import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { FiArrowRight, FiCheckCircle, FiUsers, FiFileText, FiShield } from 'react-icons/fi'
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { ArrowRight, Shield, Users, FileText, CheckCircle } from "lucide-react";
 
-const MotionBox = motion(Box)
+export default function LandingPage() {
+  const router = useRouter();
 
-export default function Home() {
-  const bgColor = useColorModeValue('gray.50', 'gray.800')
-  const cardBg = useColorModeValue('white', 'gray.700')
-
-  const features = [
-    {
-      icon: FiUsers,
-      title: 'Smart Eligibility Check',
-      description: 'Our AI-powered chatbot helps you discover schemes you qualify for',
-    },
-    {
-      icon: FiFileText,
-      title: 'Easy Application Process',
-      description: 'Simple document upload and verification system',
-    },
-    {
-      icon: FiShield,
-      title: 'Secure & Transparent',
-      description: 'Blockchain-based tracking of your application status',
-    },
-  ]
-
-  const stats = [
-    { label: 'Schemes Available', value: '50+' },
-    { label: 'Users Helped', value: '10K+' },
-    { label: 'Success Rate', value: '95%' },
-  ]
+  const handleConnectWallet = () => {
+    router.push("/auth/signin");
+  };
 
   return (
-    <Box>
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <Box bg={bgColor} py={20}>
-        <Container maxW="container.xl">
-          <Flex direction={{ base: 'column', md: 'row' }} align="center" gap={10}>
-            <Box flex={1}>
-              <MotionBox
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Heading
-                  as="h1"
-                  size="2xl"
-                  mb={6}
-                  bgGradient="linear(to-r, blue.400, purple.500)"
-                  bgClip="text"
-                >
-                  Discover Government Welfare Schemes
-                </Heading>
-                <Text fontSize="xl" color="gray.600" mb={8}>
-                  Find and apply for government schemes that match your needs. Our AI-powered platform makes it easy to discover your eligibility and track your applications.
-                </Text>
-                <HStack spacing={4}>
-                  <Link href="/chatbot" passHref>
-                    <Button
-                      size="lg"
-                      colorScheme="blue"
-                      rightIcon={<FiArrowRight />}
-                      _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
-                      transition="all 0.2s"
-                    >
-                      Check Eligibility
-                    </Button>
-                  </Link>
-                  <Link href="/schemes" passHref>
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
-                      transition="all 0.2s"
-                    >
-                      Browse Schemes
-                    </Button>
-                  </Link>
-                </HStack>
-              </MotionBox>
-            </Box>
-            <Box flex={1}>
-              <MotionBox
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <Image
-                  src="/hero-image.png"
-                  alt="WelfareChain Platform"
-                  borderRadius="lg"
-                  shadow="xl"
-                />
-              </MotionBox>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
+      <div className="relative isolate overflow-hidden bg-gradient-to-b from-indigo-100/20">
+        <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
+          <div className="px-6 lg:px-0 lg:pt-4">
+            <div className="mx-auto max-w-2xl">
+              <div className="max-w-lg">
+                <h1 className="mt-10 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                  WelfareChain
+                </h1>
+                <p className="mt-6 text-lg leading-8 text-gray-600">
+                  Revolutionizing welfare distribution through blockchain technology. 
+                  Transparent, secure, and efficient delivery of government schemes to citizens.
+                </p>
+                <div className="mt-10 flex items-center gap-x-6">
+                  <Button
+                    size="lg"
+                    onClick={handleConnectWallet}
+                    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Connect Wallet
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-20 sm:mt-24 md:mx-auto md:max-w-2xl lg:mx-0 lg:mt-0 lg:w-screen">
+            <div className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 md:-mr-20 lg:-mr-36" />
+            <div className="shadow-lg md:rounded-3xl">
+              <div className="bg-indigo-500 [clip-path:inset(0)] md:[clip-path:inset(0_round_theme(borderRadius.3xl))]">
+                <div className="absolute -inset-y-px left-1/2 -z-10 ml-10 w-[200%] skew-x-[-30deg] bg-indigo-100 opacity-20 ring-1 ring-inset ring-white md:ml-20 lg:ml-36" />
+                <div className="relative px-6 pt-8 sm:pt-16 md:pl-16 md:pr-0">
+                  <div className="mx-auto max-w-2xl md:mx-0 md:max-w-none">
+                    <div className="w-screen overflow-hidden rounded-tl-xl bg-gray-900">
+                      <div className="flex bg-gray-800/40 ring-1 ring-white/5">
+                        <div className="-mb-px flex text-sm font-medium leading-6 text-gray-400">
+                          <div className="border-b border-r border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2 text-white">
+                            Dashboard
+                          </div>
+                        </div>
+                      </div>
+                      <div className="px-6 pt-6 pb-14">
+                        {/* Preview of dashboard */}
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="h-24 rounded-lg bg-indigo-500/10 p-4">
+                            <div className="h-2 w-24 rounded bg-indigo-500/20" />
+                            <div className="mt-2 h-4 w-16 rounded bg-indigo-500/20" />
+                          </div>
+                          <div className="h-24 rounded-lg bg-indigo-500/10 p-4">
+                            <div className="h-2 w-24 rounded bg-indigo-500/20" />
+                            <div className="mt-2 h-4 w-16 rounded bg-indigo-500/20" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Features Section */}
-      <Box py={20}>
-        <Container maxW="container.xl">
-          <VStack spacing={12}>
-            <Box textAlign="center">
-              <Heading size="xl" mb={4}>
-                Why Choose WelfareChain?
-              </Heading>
-              <Text fontSize="lg" color="gray.600">
-                We make it easy to discover and apply for government schemes
-              </Text>
-            </Box>
-
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
-              {features.map((feature, index) => (
-                <MotionBox
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Box
-                    p={8}
-                    bg={cardBg}
-                    borderRadius="lg"
-                    shadow="md"
-                    _hover={{ transform: 'translateY(-5px)', shadow: 'lg' }}
-                    transition="all 0.3s"
-                  >
-                    <Icon as={feature.icon} w={10} h={10} color="blue.500" mb={4} />
-                    <Heading size="md" mb={2}>
-                      {feature.title}
-                    </Heading>
-                    <Text color="gray.600">{feature.description}</Text>
-                  </Box>
-                </MotionBox>
-              ))}
-            </SimpleGrid>
-          </VStack>
-        </Container>
-      </Box>
-
-      {/* Stats Section */}
-      <Box bg={bgColor} py={20}>
-        <Container maxW="container.xl">
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
-            {stats.map((stat, index) => (
-              <MotionBox
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <Box textAlign="center">
-                  <Heading size="2xl" mb={2} color="blue.500">
-                    {stat.value}
-                  </Heading>
-                  <Text fontSize="lg" color="gray.600">
-                    {stat.label}
-                  </Text>
-                </Box>
-              </MotionBox>
-            ))}
-          </SimpleGrid>
-        </Container>
-      </Box>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
+        <div className="mx-auto max-w-2xl lg:text-center">
+          <h2 className="text-base font-semibold leading-7 text-indigo-600">Faster, Secure, Transparent</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Everything you need to manage welfare schemes
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-600">
+            WelfareChain brings transparency and efficiency to welfare distribution through blockchain technology.
+          </p>
+        </div>
+        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
+            <div className="flex flex-col">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <Shield className="h-6 w-6 text-white" />
+                  </div>
+                  <dt className="mt-4 font-semibold text-gray-900">Secure & Transparent</dt>
+                  <dd className="mt-2 leading-7 text-gray-600">
+                    Every transaction is recorded on the blockchain, ensuring complete transparency and security.
+                  </dd>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex flex-col">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
+                  <dt className="mt-4 font-semibold text-gray-900">Citizen-Centric</dt>
+                  <dd className="mt-2 leading-7 text-gray-600">
+                    Easy access to welfare schemes and real-time tracking of applications and disbursements.
+                  </dd>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex flex-col">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                    <CheckCircle className="h-6 w-6 text-white" />
+                  </div>
+                  <dt className="mt-4 font-semibold text-gray-900">Efficient Distribution</dt>
+                  <dd className="mt-2 leading-7 text-gray-600">
+                    Automated verification and instant disbursement of benefits to eligible citizens.
+                  </dd>
+                </CardContent>
+              </Card>
+            </div>
+          </dl>
+        </div>
+      </div>
 
       {/* CTA Section */}
-      <Box py={20}>
-        <Container maxW="container.xl">
-          <Box
-            bgGradient="linear(to-r, blue.500, purple.500)"
-            p={10}
-            borderRadius="lg"
-            color="white"
-            textAlign="center"
-          >
-            <Heading size="xl" mb={4}>
-              Ready to Discover Your Benefits?
-            </Heading>
-            <Text fontSize="lg" mb={8}>
-              Start your journey to discover and apply for government welfare schemes today.
-            </Text>
-            <Link href="/chatbot" passHref>
-              <Button
-                size="lg"
-                bg="white"
-                color="blue.500"
-                _hover={{ bg: 'gray.100' }}
-                rightIcon={<FiArrowRight />}
-              >
-                Get Started Now
-              </Button>
-            </Link>
-          </Box>
-        </Container>
-      </Box>
-    </Box>
-  )
+      <div className="bg-indigo-600">
+        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8">
+          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Ready to get started?
+            <br />
+            Connect your wallet today.
+          </h2>
+          <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
+            <Button
+              size="lg"
+              onClick={handleConnectWallet}
+              className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Connect Wallet
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 } 

@@ -1,28 +1,36 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import { ChakraProvider } from '@chakra-ui/react'
-import ClientLayout from '@/components/layout/ClientLayout'
+import "./globals.css";
+import { Inter } from "next/font/google";
+import type { Metadata } from "next";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from "sonner";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'WelfareChain - Government Scheme Discovery',
-  description: 'Discover and apply for government welfare schemes using blockchain technology',
-}
+  title: "WelfareChain",
+  description: "Blockchain-based welfare scheme management system",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ChakraProvider>
-          <ClientLayout>{children}</ClientLayout>
-        </ChakraProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster />
+          <SonnerToaster />
+        </ThemeProvider>
       </body>
     </html>
-  )
+  );
 } 

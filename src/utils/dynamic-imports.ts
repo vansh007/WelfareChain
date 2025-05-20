@@ -29,8 +29,3 @@ export const DynamicEthers = dynamic(
   () => import('ethers').then((mod) => mod.ethers),
   { ssr: false }
 );
-
-export const DynamicWagmi = dynamic(
-  () => import('wagmi').then((mod) => mod.WagmiConfig),
-  { ssr: false }
-); 

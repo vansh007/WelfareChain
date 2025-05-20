@@ -1,24 +1,11 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import {
-  Box,
-  VStack,
-  HStack,
-  Input,
-  Button,
-  Text,
-  Flex,
-  Avatar,
-  useToast,
-  Icon,
-  useColorModeValue,
-} from '@chakra-ui/react'
 import { FiSend, FiUser, FiMessageSquare } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import { generateChatResponse } from '../../utils/gemini'
 
-const MotionBox = motion.create(Box)
+const MotionDiv = motion.div
 
 interface Message {
   role: 'user' | 'model'
@@ -29,10 +16,7 @@ export default function ChatbotInterface() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const toast = useToast()
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const bgColor = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.700')
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -74,71 +58,73 @@ export default function ChatbotInterface() {
   }
 
   return (
-    <Box
-      h="100vh"
-      display="flex"
-      flexDirection="column"
-      bg={useColorModeValue('gray.50', 'gray.900')}
-    >
-      <VStack
-        flex={1}
-        overflowY="auto"
-        p={4}
-        spacing={4}
-        alignItems="stretch"
-      >
+    <div className="flex flex-col h-screen bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <AnimatePresence>
           {messages.map((message, index) => (
-            <MotionBox
+            <MotionDiv
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              alignSelf={message.role === 'user' ? 'flex-end' : 'flex-start'}
-              maxW="70%"
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <Box
-                bg={message.role === 'user' ? 'brand.500' : bgColor}
-                color={message.role === 'user' ? 'white' : 'inherit'}
-                p={3}
-                borderRadius="lg"
-                boxShadow="md"
-                borderWidth={1}
-                borderColor={borderColor}
+              <div
+                className={`max-w-[70%] rounded-lg p-3 shadow-md
+                  ${message.role === 'user'
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-white text-gray-800 border border-gray-200'
+                  }`}
               >
-                <Text>{message.content}</Text>
-              </Box>
-            </MotionBox>
+                <div className="flex items-start space-x-2">
+                  <div className={`flex-shrink-0 ${message.role === 'user' ? 'text-white' : 'text-primary-500'}`}>
+                    {message.role === 'user' ? <FiUser className="w-5 h-5" /> : <FiMessageSquare className="w-5 h-5" />}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  </div>
+                </div>
+              </div>
+            </MotionDiv>
           ))}
         </AnimatePresence>
         <div ref={messagesEndRef} />
-      </VStack>
+      </div>
 
-      <Box
-        p={4}
-        borderTop="1px"
-        borderColor={borderColor}
-        bg={bgColor}
-      >
-        <HStack>
-          <Input
+      <div className="border-t border-gray-200 bg-white p-4">
+        <div className="flex space-x-4">
+          <input
+            type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={onKeyPress}
             placeholder="Type your message..."
             disabled={isLoading}
+            className="flex-1 input"
           />
-          <Button
+          <button
             onClick={handleSend}
-            colorScheme="brand"
-            isLoading={isLoading}
-            loadingText="Sending..."
+            disabled={isLoading || !input.trim()}
+            className="btn btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Send
-          </Button>
-        </HStack>
-      </Box>
-    </Box>
+            {isLoading ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Sending...</span>
+              </>
+            ) : (
+              <>
+                <FiSend className="w-5 h-5" />
+                <span>Send</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
   )
 } 

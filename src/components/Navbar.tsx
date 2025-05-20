@@ -9,8 +9,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FiMoon, FiSun } from "react-icons/fi";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
+
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();

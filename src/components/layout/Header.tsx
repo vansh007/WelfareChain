@@ -1,115 +1,154 @@
 'use client'
 
-import {
-  Box,
-  Flex,
-  HStack,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FiUser, FiSettings, FiLogOut, FiHome } from 'react-icons/fi'
+import { FiUser, FiSettings, FiLogOut, FiHome, FiMenu, FiX } from 'react-icons/fi'
+
 
 export default function Header() {
   const pathname = usePathname()
-  const bgColor = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.700')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { address, isConnected } = useAccount()
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  })
+  const { disconnect } = useDisconnect()
 
   const isActive = (path: string) => pathname === path
 
+  const navLinks = [
+    { href: '/', label: 'Home', icon: FiHome },
+    { href: '/schemes', label: 'Schemes' },
+    { href: '/chatbot', label: 'Check Eligibility' },
+    { href: '/dashboard', label: 'Dashboard' },
+  ]
+
   return (
-    <Box
-      as="header"
-      position="fixed"
-      w="full"
-      bg={bgColor}
-      borderBottom="1px"
-      borderColor={borderColor}
-      zIndex="sticky"
-    >
-      <Flex
-        h="16"
-        alignItems="center"
-        justifyContent="space-between"
-        maxW="container.xl"
-        mx="auto"
-        px={4}
-      >
-        <HStack spacing={8}>
-          <Link href="/" passHref>
-            <Text
-              fontSize="xl"
-              fontWeight="bold"
-              color="primary"
-              _hover={{ textDecoration: 'none' }}
-            >
-              WelfareChain
-            </Text>
+    <header className="fixed w-full bg-white border-b border-gray-200 z-50">
+      <div className="container-custom">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="text-xl font-bold text-primary-500 hover:no-underline">
+            WelfareChain
           </Link>
 
-          <HStack spacing={4}>
-            <Link href="/" passHref>
-              <Button
-                variant="ghost"
-                leftIcon={<Icon as={FiHome} />}
-                colorScheme={isActive('/') ? 'blue' : 'gray'}
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors
+                  ${isActive(link.href)
+                    ? 'text-primary-500 bg-primary-50'
+                    : 'text-gray-600 hover:text-primary-500 hover:bg-gray-50'
+                  }`}
               >
-                Home
-              </Button>
-            </Link>
-            <Link href="/schemes" passHref>
-              <Button
-                variant="ghost"
-                colorScheme={isActive('/schemes') ? 'blue' : 'gray'}
-              >
-                Schemes
-              </Button>
-            </Link>
-            <Link href="/chatbot" passHref>
-              <Button
-                variant="ghost"
-                colorScheme={isActive('/chatbot') ? 'blue' : 'gray'}
-              >
-                Check Eligibility
-              </Button>
-            </Link>
-            <Link href="/dashboard" passHref>
-              <Button
-                variant="ghost"
-                colorScheme={isActive('/dashboard') ? 'blue' : 'gray'}
-              >
-                Dashboard
-              </Button>
-            </Link>
-          </HStack>
-        </HStack>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-        <Menu>
-          <MenuButton
-            as={Button}
-            variant="ghost"
-            leftIcon={<Icon as={FiUser} />}
+          {/* Wallet Connection */}
+          <div className="hidden md:flex items-center space-x-4">
+            {isConnected ? (
+              <div className="relative group">
+                <button
+                  onClick={() => disconnect()}
+                  className="flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                >
+                  <FiUser className="w-4 h-4" />
+                  <span>{address?.slice(0, 6)}...{address?.slice(-4)}</span>
+                </button>
+                <div className="absolute right-0 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="py-1">
+                    <Link
+                      href="/dashboard/profile"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <FiUser className="w-4 h-4 mr-2" />
+                      Profile
+                    </Link>
+                    <Link
+                      href="/dashboard/settings"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <FiSettings className="w-4 h-4 mr-2" />
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => disconnect()}
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <FiLogOut className="w-4 h-4 mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => connect()}
+                className="px-4 py-2 text-sm font-medium text-white bg-primary-500 rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              >
+                Connect Wallet
+              </button>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            John Doe
-          </MenuButton>
-          <MenuList>
-            <Link href="/dashboard/profile" passHref>
-              <MenuItem icon={<Icon as={FiUser} />}>Profile</MenuItem>
-            </Link>
-            <Link href="/dashboard/settings" passHref>
-              <MenuItem icon={<Icon as={FiSettings} />}>Settings</MenuItem>
-            </Link>
-            <MenuItem icon={<Icon as={FiLogOut} />}>Logout</MenuItem>
-          </MenuList>
-        </Menu>
-      </Flex>
-    </Box>
+            {isMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block px-3 py-2 rounded-md text-base font-medium
+                    ${isActive(link.href)
+                      ? 'text-primary-500 bg-primary-50'
+                      : 'text-gray-600 hover:text-primary-500 hover:bg-gray-50'
+                    }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {isConnected ? (
+                <button
+                  onClick={() => {
+                    disconnect()
+                    setIsMenuOpen(false)
+                  }}
+                  className="block w-full text-left px-3 py-2 text-base font-medium text-gray-600 hover:text-primary-500 hover:bg-gray-50 rounded-md"
+                >
+                  Disconnect Wallet
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    connect()
+                    setIsMenuOpen(false)
+                  }}
+                  className="block w-full text-left px-3 py-2 text-base font-medium text-primary-500 hover:bg-primary-50 rounded-md"
+                >
+                  Connect Wallet
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
   )
 } 
