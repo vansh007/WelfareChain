@@ -1,110 +1,100 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Mic, MicOff, Volume2, VolumeX, X, Bot, Loader2 } from "lucide-react";
-import { api } from "../api.js";
+import { Mic, MicOff, Volume2, VolumeX, X, Bot, Loader2, RotateCcw } from "lucide-react";
 import { GREET } from "../i18n.js";
 import { useSpeech } from "../hooks/useSpeech.js";
+import { useChat } from "../context/ChatContext.jsx";
 
-/** Floating voice agent — Swar Sahayak. Web Speech API (free). Regional UP languages via i18n. */
+const VOICE_CHIPS = {
+  hi: ["कौन सी योजनाएँ?", "आवेदन कैसे?", "ब्लॉकचेन क्या है?", "मदद"],
+  en: ["Which schemes?", "How to apply?", "What is blockchain?", "Help"],
+  bho: ["kaun si yojana?", "apply kaise?", "madad"],
+  awa: ["kaun si yojana?", "apply kaise?", "madad"],
+  ur: ["kaun si scheme?", "apply kaise?", "madad"],
+};
+
+/** Floating voice agent — Swar Sahayak with shared chat memory + navigation. */
 export default function VoiceAgent({
-  t, loc, userId, open, onClose, currentStep, onNavigate,
+  t, loc, open, onClose, currentStep, onNavigate, onOpenAdmin, autoSpeak = true,
 }) {
+  const { messages, ask, reset, addBot, addUser } = useChat();
   const { listening, speaking, listen, stopListen, speak, stopSpeak, supported } = useSpeech(loc);
-  const [msgs, setMsgs] = useState([]);
   const [busy, setBusy] = useState(false);
+  const [autoOn, setAutoOn] = useState(autoSpeak);
 
   useEffect(() => {
-    if (open && msgs.length === 0) {
+    if (open && messages.length === 0) {
       const g = GREET[loc] || GREET.hi;
-      setMsgs([{ role: "bot", text: g }]);
-      speak(g);
+      if (autoOn) speak(g);
     }
   }, [open, loc]);
 
-  useEffect(() => {
-    if (!open) return;
-    setMsgs([{ role: "bot", text: GREET[loc] || GREET.hi }]);
-  }, [loc]);
-
   const stepHelp = useCallback(() => {
     const map = {
-      id: { hi: "पहले अपना नाम, उम्र, ज़िला भरें और वॉलेट बनाएँ।", en: "First fill your name, age, district and create a wallet.",
-        bho: "पहिले नाम, उमिर, जिला भरीं आ wallet बनावीं।", awa: "पहिले नाम, उमिर, जिला भरौ आ wallet बनावौ।",
-        ur: "Pehle naam, umar, district bharien aur wallet banayein." },
-      find: { hi: "हरी योजनाएँ चुनें या सहायक से पूछें।", en: "Pick green schemes or ask the assistant.",
-        bho: "हरियर योजना chuni या सहायक से puchhi।", awa: "हरियर योजना chunau या सहायक से puchho।",
-        ur: "Green schemes chunen ya assistant se puchhen." },
-      apply: { hi: "एक दस्तावेज़ चुनें और सत्यापन शुरू करें।", en: "Choose a document and run verification.",
-        bho: "एगो document chuni आ verification shuru kari।", awa: "एक document chunau आ verification shuru karau।",
-        ur: "Ek document chunen aur verification shuru karein." },
-      verify: { hi: "AI चार चरणों में दस्तावेज़ जाँच रहा है।", en: "AI is checking your document in four stages.",
-        bho: "AI chaar step mein document check karat ba।", awa: "AI chaar step mein document check karat ba।",
-        ur: "AI chaar steps mein document check kar raha hai." },
-      done: { hi: "परिणाम देखें। फिर दूसरी योजना के लिए आवेदन कर सकते हैं।", en: "See the result. You can apply for another scheme.",
-        bho: "Result dekhi। aur yojana apply kar sakta baani।", awa: "Result dekho। aur yojana apply kar sakta baani।",
-        ur: "Result dekhen. Aur scheme apply kar sakte hain." },
+      id: { hi: "पहले नाम, उम्र, ज़िला भरें और वॉलेट बनाएँ।", en: "Fill name, age, district and create wallet." },
+      find: { hi: "हरी योजनाएँ चुनें या मुझसे पूछें।", en: "Pick green schemes or ask me." },
+      apply: { hi: "दस्तावेज़ चुनें — वैध (हरा) या बदला (लाल) डेमो।", en: "Pick a document — valid (green) or tampered (red) demo." },
+      verify: { hi: "AI चार चरणों में जाँच कर रहा है।", en: "AI is running four verification stages." },
+      done: { hi: "परिणाम देखें। दूसरी योजना के लिए फिर आवेदन करें।", en: "See result. Apply for another scheme if you wish." },
     };
-    return map[currentStep]?.[loc] || map[currentStep]?.hi || "";
-  }, [currentStep, loc]);
+    return map[currentStep]?.[loc] || map[currentStep]?.hi || t("voice_hint");
+  }, [currentStep, loc, t]);
 
   const localIntent = useCallback((text) => {
     const q = text.toLowerCase();
-    if (/help|madad|सहाय|madad|مدد|step|chalan|कहाँ|where|kahan/.test(q)) {
-      return stepHelp() || t("voice_hint");
-    }
+    if (/help|madad|सहाय|مدد|step|kahan|कहाँ|where/.test(q)) return stepHelp();
     if (/identity|pahchan|पहचान|wallet|वॉलेट|شناخت/.test(q)) {
       onNavigate?.("id");
-      return loc === "hi" ? "पहचान चरण पर ले गया। अपना विवरण भरें।" : "Going to identity step. Fill your details.";
+      return loc === "hi" ? "पहचान चरण पर ले गया।" : "Going to identity step.";
     }
     if (/scheme|yojana|योजन|اسکیم/.test(q)) {
       onNavigate?.("find");
-      return loc === "hi" ? "योजना चरण पर। हरी बैज वाली योजनाएँ चुनें।" : "Schemes step. Pick ones marked green.";
+      return loc === "hi" ? "योजना चरण पर।" : "Schemes step.";
     }
-    if (/apply|awedan|आवेदन|درخواست/.test(q)) {
-      return loc === "hi" ? "पहले पात्र योजना चुनें, फिर आवेदन बटन दबाएँ।" : "First pick an eligible scheme, then tap Apply.";
+    if (/document|dastavez|दस्तावेज|upload/.test(q)) {
+      onNavigate?.("apply");
+      return loc === "hi" ? "दस्तावेज़ चरण। वैध नमूना चुनें।" : "Document step. Pick a valid sample.";
     }
-    if (/read|padh|पढ़|پڑھ/.test(q)) {
-      return stepHelp();
+    if (/admin|dashboard|प्रशासक|officer/.test(q)) {
+      onOpenAdmin?.();
+      return loc === "hi" ? "प्रशासक डैशबोर्ड खोला।" : "Opening admin dashboard.";
+    }
+    if (/blockchain|chain|ब्लॉक/.test(q)) {
+      return loc === "hi"
+        ? "हर कार्रवाई Hardhat चेन पर दर्ज होती है। प्रशासक में एक्सप्लोरर देखें।"
+        : "Every action is recorded on Hardhat. See explorer in admin.";
+    }
+    if (/tamper|fraud|धोखा|badla|बदला/.test(q)) {
+      return loc === "hi"
+        ? "बदला हुआ दस्तावेज़ चुनें — AI पकड़ेगा और मानवीय समीक्षा होगी।"
+        : "Pick a tampered document — AI will flag it for human review.";
     }
     return null;
-  }, [stepHelp, onNavigate, loc, t]);
+  }, [stepHelp, onNavigate, onOpenAdmin, loc]);
 
   const handleVoice = useCallback(async (transcript) => {
     if (!transcript) return;
-    setMsgs((m) => [...m, { role: "user", text: transcript }]);
     setBusy(true);
-
     const local = localIntent(transcript);
     if (local) {
-      setMsgs((m) => [...m, { role: "bot", text: local }]);
-      speak(local);
+      addUser(transcript);
+      addBot(local);
+      if (autoOn) speak(local);
       setBusy(false);
       return;
     }
-
-    try {
-      const res = await api.chat(userId || "guest", transcript, loc);
-      setMsgs((m) => [...m, { role: "bot", text: res.reply }]);
-      speak(res.reply);
-    } catch {
-      const err = loc === "hi" ? "क्षमा करें, जवाब नहीं मिला। फिर कोशिश करें।"
-        : "Sorry, couldn't answer. Try again.";
-      setMsgs((m) => [...m, { role: "bot", text: err }]);
-      speak(err);
-    }
+    const res = await ask(transcript);
+    if (res?.reply && autoOn) speak(res.reply);
     setBusy(false);
-  }, [userId, loc, localIntent, speak]);
+  }, [localIntent, ask, speak, autoOn, addBot, addUser]);
 
   const startMic = () => {
-    if (!supported) {
-      const msg = t("voice_unsupported");
-      setMsgs((m) => [...m, { role: "bot", text: msg }]);
-      return;
-    }
+    if (!supported) return;
     if (listening) { stopListen(); return; }
-    listen(handleVoice, () => {
-      setMsgs((m) => [...m, { role: "bot", text: t("voice_unsupported") }]);
-    });
+    listen(handleVoice, () => speak(t("voice_unsupported")));
   };
+
+  const chips = VOICE_CHIPS[loc] || VOICE_CHIPS.hi;
+  const display = messages.length ? messages : [{ role: "assistant", content: GREET[loc] || GREET.hi }];
 
   if (!open) return null;
 
@@ -112,42 +102,54 @@ export default function VoiceAgent({
     <div className="voice-panel" role="dialog" aria-label={t("voice_name")} aria-modal="true">
       <div className="voice-head">
         <div className="row">
-          <span className="voice-avatar"><Bot size={20} /></span>
+          <span className={"voice-avatar " + (listening ? "pulse" : "")}><Bot size={20} /></span>
           <div>
             <b>{t("voice_name")}</b>
             <p className="sub">{t("voice_sub")}</p>
           </div>
         </div>
-        <button type="button" className="icon-btn" onClick={onClose} aria-label="Close">
-          <X size={18} />
-        </button>
+        <div className="row">
+          <button type="button" className="icon-btn" onClick={reset} title={t("chat_reset")}>
+            <RotateCcw size={16} />
+          </button>
+          <button type="button" className="icon-btn" onClick={onClose} aria-label="Close">
+            <X size={18} />
+          </button>
+        </div>
+      </div>
+
+      <div className="voice-chips">
+        {chips.map((c) => (
+          <button key={c} type="button" className="voice-chip" onClick={() => handleVoice(c)}>{c}</button>
+        ))}
       </div>
 
       <div className="voice-msgs">
-        {msgs.map((m, i) => (
-          <div key={i} className={"voice-bub " + m.role}>{m.text}</div>
+        {display.slice(-6).map((m, i) => (
+          <div key={i} className={"voice-bub " + m.role}>{m.content}</div>
         ))}
-        {busy && (
-          <div className="voice-bub bot">
-            <Loader2 size={16} className="spin" />
-          </div>
-        )}
+        {busy && <div className="voice-bub bot"><Loader2 size={16} className="spin" /></div>}
       </div>
 
-      <p className="voice-hint">{listening ? t("voice_listen") : t("voice_hint")}</p>
+      {listening && (
+        <div className="voice-wave" aria-hidden="true">
+          {[1, 2, 3, 4, 5].map((n) => <span key={n} className="wave-bar" />)}
+        </div>
+      )}
+
+      <p className="voice-hint">{listening ? t("voice_listen") : stepHelp()}</p>
 
       <div className="voice-controls">
-        <button
-          type="button"
-          className={"voice-mic " + (listening ? "active" : "")}
-          onClick={startMic}
-          aria-pressed={listening}
-          aria-label={t("mic")}
-        >
+        <button type="button" className={"voice-mic " + (listening ? "active" : "")}
+          onClick={startMic} aria-pressed={listening} aria-label={t("mic")}>
           {listening ? <MicOff size={28} /> : <Mic size={28} />}
         </button>
-        <button type="button" className="icon-btn" onClick={speaking ? stopSpeak : () => speak(msgs.at(-1)?.text || "")}
-          aria-label={t("a11y_read")}>
+        <button type="button" className={"icon-btn " + (autoOn ? "on" : "")}
+          onClick={() => setAutoOn(!autoOn)} title={t("auto_speak")}>
+          {autoOn ? <Volume2 size={18} /> : <VolumeX size={18} />}
+        </button>
+        <button type="button" className="icon-btn"
+          onClick={speaking ? stopSpeak : () => speak(display.at(-1)?.content || "")}>
           {speaking ? <VolumeX size={18} /> : <Volume2 size={18} />}
         </button>
       </div>

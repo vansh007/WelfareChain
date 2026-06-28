@@ -8,12 +8,14 @@ import AccessibilityBar from "./components/AccessibilityBar.jsx";
 import VoiceAgent from "./components/VoiceAgent.jsx";
 import CitizenFlow from "./components/CitizenFlow.jsx";
 import Admin from "./components/Admin.jsx";
+import { ChatProvider } from "./context/ChatContext.jsx";
 import { useSpeech } from "./hooks/useSpeech.js";
 
-export default function App() {
+function AppInner() {
   const [loc, setLoc] = useState("hi");
   const [role, setRole] = useState("citizen");
   const [chain, setChain] = useState("…");
+  const [blockNum, setBlockNum] = useState(null);
   const [toast, setToast] = useState(null);
   const [showLanding, setShowLanding] = useState(true);
   const [largeText, setLargeText] = useState(false);
@@ -25,9 +27,18 @@ export default function App() {
   const { speak } = useSpeech(loc);
   const t = T(loc);
 
-  useEffect(() => {
-    api.health().then((h) => setChain(h.chain)).catch(() => setChain("offline"));
+  const pollChain = useCallback(() => {
+    api.health().then((h) => {
+      setChain(h.chain);
+      setBlockNum(h.block_number ?? null);
+    }).catch(() => setChain("offline"));
   }, []);
+
+  useEffect(() => {
+    pollChain();
+    const iv = setInterval(pollChain, 5000);
+    return () => clearInterval(iv);
+  }, [pollChain]);
 
   useEffect(() => {
     document.body.classList.toggle("large-text", largeText);
@@ -41,18 +52,6 @@ export default function App() {
     setTimeout(() => setToast(null), 5500);
   };
 
-  const launchApp = () => {
-    setShowLanding(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const readAloud = useCallback(() => {
-    const el = mainRef.current;
-    if (!el) return;
-    const text = el.innerText?.slice(0, 800) || "";
-    speak(text);
-  }, [speak]);
-
   const handleNavigate = useCallback((step) => {
     setCitizenStep(step);
     setRole("citizen");
@@ -60,14 +59,14 @@ export default function App() {
   }, []);
 
   return (
-    <div>
+    <ChatProvider userId={userId} loc={loc}>
       <a href="#main" className="skip-link">{loc === "hi" ? "मुख्य सामग्री पर जाएँ" : "Skip to main content"}</a>
 
       <AccessibilityBar
         t={t} loc={loc} setLoc={setLoc}
         largeText={largeText} setLargeText={setLargeText}
         highContrast={highContrast} setHighContrast={setHighContrast}
-        onReadAloud={readAloud}
+        onReadAloud={() => speak(mainRef.current?.innerText?.slice(0, 800) || "")}
         onOpenVoice={() => setVoiceOpen(true)}
       />
 
@@ -80,20 +79,19 @@ export default function App() {
               <small>{t("tagline")}</small>
             </span>
           </button>
-          <span
-            className={"chainbadge " + (chain === "live" ? "live" : "")}
-            title="Hardhat local EVM status"
-            aria-live="polite"
-          >
+          <span className={"chainbadge " + (chain === "live" ? "live" : "")} aria-live="polite">
             <Landmark size={13} aria-hidden="true" />
             {chain === "live" ? t("chain_live") : t("chain_sim")}
+            {blockNum != null && chain === "live" && <span className="block-pill">#{blockNum}</span>}
           </span>
           <span className="spacer" />
           <div className="seg" role="group" aria-label="Role">
-            <button type="button" className={role === "citizen" ? "on" : ""} onClick={() => { setRole("citizen"); setShowLanding(false); }}>
+            <button type="button" className={role === "citizen" ? "on" : ""}
+              onClick={() => { setRole("citizen"); setShowLanding(false); }}>
               <UserRound size={15} aria-hidden="true" /> {t("citizen")}
             </button>
-            <button type="button" className={role === "admin" ? "on" : ""} onClick={() => { setRole("admin"); setShowLanding(false); }}>
+            <button type="button" className={role === "admin" ? "on" : ""}
+              onClick={() => { setRole("admin"); setShowLanding(false); }}>
               <MessageSquareHeart size={15} aria-hidden="true" /> {t("admin")}
             </button>
           </div>
@@ -102,7 +100,9 @@ export default function App() {
 
       <div className="wrap" id="main" ref={mainRef} tabIndex={-1}>
         {showLanding && role === "citizen" ? (
-          <Landing t={t} loc={loc} onLaunch={launchApp} chain={chain} />
+          <Landing t={t} loc={loc}
+            onLaunch={() => { setShowLanding(false); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            chain={chain} />
         ) : role === "citizen" ? (
           <CitizenFlow
             t={t} loc={loc} showToast={showToast}
@@ -124,16 +124,12 @@ export default function App() {
         open={voiceOpen} onClose={() => setVoiceOpen(false)}
         currentStep={citizenStep}
         onNavigate={handleNavigate}
+        onOpenAdmin={() => { setRole("admin"); setShowLanding(false); setVoiceOpen(false); }}
       />
 
       {!voiceOpen && (
-        <button
-          type="button"
-          className="voice-fab"
-          onClick={() => setVoiceOpen(true)}
-          aria-label={t("a11y_voice")}
-          title={t("voice_name")}
-        >
+        <button type="button" className="voice-fab" onClick={() => setVoiceOpen(true)}
+          aria-label={t("a11y_voice")} title={t("voice_name")}>
           <Mic size={24} />
         </button>
       )}
@@ -144,6 +140,10 @@ export default function App() {
           <span>{toast}</span>
         </div>
       )}
-    </div>
+    </ChatProvider>
   );
+}
+
+export default function App() {
+  return <AppInner />;
 }

@@ -219,6 +219,31 @@ export const STR = {
   refresh: _("ताज़ा करें", "Refresh", "refresh", "refresh", "refresh"),
   back: _("पीछे", "Back", "pichhe", "pichhe", "wapis"),
   smsbox: _("SMS सूचनाएँ", "SMS notifications", "SMS", "SMS", "SMS"),
+
+  // blockchain explorer
+  explorer_h: _("ब्लॉकचेन एक्सप्लोरर", "Blockchain explorer", "blockchain explorer", "blockchain explorer", "blockchain explorer"),
+  explorer_s: _("Hardhat चेन — ब्लॉक, अनुबंध, इवेंट", "Hardhat chain — blocks, contracts, events",
+    "Hardhat chain — block, contract", "Hardhat chain — block, contract", "Hardhat chain — blocks, contracts"),
+  chain_mode: _("चेन मोड", "Chain mode", "chain mode", "chain mode", "chain mode"),
+  block_num: _("ब्लॉक", "Block", "block", "block", "block"),
+  recent_blocks: _("हाल के ब्लॉक", "Recent blocks", "recent blocks", "recent blocks", "recent blocks"),
+  chain_events: _("नवीनतम ऑन-चेन इवेंट", "Latest on-chain events", "latest events", "latest events", "latest events"),
+  explorer_sim_note: _("Hardhat नode ऑफलाइन — सिमुलेशन मोड। `npm run chain` से चेन शुरू करें।",
+    "Hardhat node offline — simulation mode. Start chain with `npm run chain`.",
+    "Hardhat offline — simulation mode.", "Hardhat offline — simulation mode.", "Hardhat offline — simulation mode."),
+  tx_detail: _("लेन-देन विवरण", "Transaction details", "transaction detail", "transaction detail", "transaction details"),
+  tx_not_found: _("लेन-देन नहीं मिला (सिमुलेशन या पुराना हैश)।", "Transaction not found (simulated or stale hash).",
+    "transaction nahi mila.", "transaction nahi mila.", "transaction nahi mila."),
+
+  // chat enhancements
+  chat_blockchain: _("ब्लॉकचेन कैसे काम करता है?", "How does blockchain work?", "blockchain kaise?", "blockchain kaise?", "blockchain kaise?"),
+  chat_docs: _("कौन से दस्तावेज़ चाहिए?", "Which documents are needed?", "kaun document?", "kaun document?", "kaun se documents?"),
+  chat_reset: _("बातचीत रीसेट", "Reset conversation", "chat reset", "chat reset", "chat reset"),
+  chat_cites: _("संबंधित योजनाएँ:", "Related schemes:", "related yojana:", "related yojana:", "related schemes:"),
+  auto_speak: _("स्वतः बोलें", "Auto-speak replies", "auto speak", "auto speak", "auto speak"),
+  app_history: _("आपके आवेदन", "Your applications", "aapke application", "tohare application", "aapke applications"),
+  ledger_click: _("लेन-देन देखने के लिए क्लिक करें", "Click a row to view transaction", "tx dekhne click kari", "tx dekhne click karau", "tx dekhne click karein"),
+
   footer: _(
     "सिमुलेशन प्रोटोटाइप · सिंथेटिक डेटा · उ.प्र. · कोई असली आधार/लाभार्थी डेटा नहीं।",
     "Simulation prototype · synthetic data · UP · no real Aadhaar/beneficiary data.",

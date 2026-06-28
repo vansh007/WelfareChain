@@ -13,6 +13,29 @@ from .schemes import SCHEMES, SCHEME_BY_KEY, evaluate, eligible_keys
 GEMINI_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 GROQ_KEY = os.getenv("GROQ_API_KEY", "").strip()
 
+# Lightweight FAQ — RAG-style grounding without external vector DB (free, local)
+FAQ = [
+    (["blockchain", "ब्लॉकचेन", "chain", "on-chain", "ledger", "tx", "transaction"],
+     {"hi": "हर आवेदन Hardhat (स्थानीय EVM) पर दर्ज होता है — सत्यापन, स्वीकृति, टोकन mint/burn। "
+            "यह सिमुलेशन है; असली सरकारी चेन नहीं। प्रशासक डैशबोर्ड में ब्लॉक एक्सप्लोरर देखें।",
+      "en": "Each application is recorded on Hardhat (local EVM)—verification, approval, token mint/burn. "
+            "This is a simulation, not a live govt chain. See the block explorer in the admin dashboard."}),
+    (["document", "दस्तावेज", "upload", "certif", "ocr", "verify", "सत्यापन"],
+     {"hi": "6 प्रकार: आधार, आय, जाति, निवास, दिव्यांग, राशन। AI चार चरण चलाता है: OCR, लेआउट, "
+            "छेड़छाड़ (ELA), सरकारी रिकॉर्ड। विफल = मानवीय समीक्षा, स्वतः अस्वीकृति नहीं।",
+      "en": "Six types: Aadhaar, income, caste, residence, disability, ration. AI runs four stages: "
+            "OCR, layout, tamper (ELA), gov records. Failures go to human review—never auto-reject."}),
+    (["simulation", "real", "असली", "sach", "sachme", "live govt"],
+     {"hi": "WelfareChain एक ICSSR अनुसंधान सिमुलेशन है। केवल सिंथेटिक डेटा; कोई असली आधार/लाभार्थी डेटा नहीं।",
+      "en": "WelfareChain is an ICSSR research simulation. Synthetic data only; no real Aadhaar/beneficiary data."}),
+    (["voice", "आवाज", "mic", "bol", "speak", "स्वर"],
+     {"hi": "माइक बटन दबाएँ और हिंदी/भोजपुरी/अवधी/उर्दू/अंग्रेज़ी में बोलें। स्वर सहायक आपको चरण-दर-चरण मार्गदर्शन देता है।",
+      "en": "Tap the mic and speak in Hindi/Bhojpuri/Awadhi/Urdu/English. Swar Sahayak guides you step by step."}),
+    (["wallet", "वॉलेट", "paisa", "money", "payment", "भुगतान"],
+     {"hi": "सफल सत्यापन पर राशि आपके वॉलेट में जमा होती है (सिम्युलेटेड)। SMS सूचना भी मिलती है।",
+      "en": "On successful verification, funds credit to your wallet (simulated). You also get an SMS notification."}),
+]
+
 # Locale → display name for LLM prompts; regional UP languages use rule-based fallback primarily
 _LOCALE_LANG = {
     "hi": "Hindi",
@@ -149,11 +172,43 @@ def _fallback(profile, message, locale):
             else "No scheme matched. Check your details.")
 
 
-def chat(profile: dict, message: str, locale: str = "hi"):
-    """Returns {reply, suggested, provider}."""
+def _faq_match(message: str, locale: str) -> str | None:
+    msg = (message or "").lower()
+    for keys, answers in FAQ:
+        if any(k in msg for k in keys):
+            return answers.get(locale) or answers.get("hi") or answers.get("en")
+    return None
+
+
+def _citations_for(elig_keys: list, locale: str) -> list:
+    out = []
+    for k in elig_keys[:5]:
+        s = SCHEME_BY_KEY.get(k)
+        if s:
+            out.append({"key": k, "name": _scheme_label(s, locale), "amount": s["amount"]})
+    return out
+
+
+def chat(profile: dict, message: str, locale: str = "hi", history: list | None = None):
+    """Returns {reply, suggested, provider, citations, grounded}."""
+    history = history or []
+    faq = _faq_match(message, locale)
+    if faq:
+        elig = eligible_keys(profile)
+        return {"reply": faq, "suggested": elig, "provider": "faq",
+                "citations": _citations_for(elig, locale), "grounded": True}
+
     system = _system_prompt(profile, locale)
     provider = "fallback"
     reply = None
+
+    # Build context from recent history for LLM calls
+    hist_ctx = ""
+    if history:
+        hist_ctx = "\nRecent conversation:\n" + "\n".join(
+            f"{h['role']}: {h['content'][:120]}" for h in history[-4:])
+        system += hist_ctx
+
     if GEMINI_KEY:
         try:
             reply, provider = _try_gemini(system, message), "gemini"
@@ -166,5 +221,8 @@ def chat(profile: dict, message: str, locale: str = "hi"):
             reply = None
     if reply is None:
         reply = _fallback(profile, message, locale)
+        provider = "fallback"
 
-    return {"reply": reply, "suggested": eligible_keys(profile), "provider": provider}
+    elig = eligible_keys(profile)
+    return {"reply": reply, "suggested": elig, "provider": provider,
+            "citations": _citations_for(elig, locale), "grounded": provider != "fallback" or bool(faq)}

@@ -17,11 +17,17 @@ async function j(method, url, body) {
 
 export const api = {
   health: () => j("GET", "/api/health"),
+  chainInfo: () => j("GET", "/api/chain/info"),
+  chainBlocks: (limit = 8) => j("GET", `/api/chain/blocks?limit=${limit}`),
+  chainTx: (hash) => j("GET", `/api/chain/tx/${encodeURIComponent(hash)}`),
+  chainEvents: (limit = 20) => j("GET", `/api/chain/events?limit=${limit}`),
   schemes: () => j("GET", "/api/schemes"),
   samples: () => j("GET", "/api/documents/samples"),
   createUser: (profile) => j("POST", "/api/users", profile),
   getUser: (id) => j("GET", `/api/users/${id}`),
-  chat: (user_id, message, locale) => j("POST", "/api/chat", { user_id, message, locale }),
+  userApplications: (userId) => j("GET", `/api/users/${userId}/applications`),
+  chat: (user_id, message, locale, history = []) =>
+    j("POST", "/api/chat", { user_id, message, locale, history }),
   apply: (user_id, scheme_key) => j("POST", "/api/applications", { user_id, scheme_key }),
   uploadSample: (appId, sampleId, docType = "income") => {
     const fd = new FormData();

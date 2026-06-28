@@ -5,11 +5,14 @@ import {
 } from "lucide-react";
 import { api } from "../api.js";
 import { fmt } from "../i18n.js";
+import BlockExplorer from "./BlockExplorer.jsx";
+import TxModal from "./TxModal.jsx";
 
 export default function Admin({ t, loc }) {
   const [m, setM] = useState(null);
   const [ledger, setLedger] = useState([]);
   const [busyId, setBusyId] = useState(null);
+  const [txModal, setTxModal] = useState(null);
 
   const load = async () => {
     try {
@@ -19,7 +22,7 @@ export default function Admin({ t, loc }) {
   };
   useEffect(() => {
     load();
-    const iv = setInterval(load, 6000); // live refresh
+    const iv = setInterval(load, 6000);
     return () => clearInterval(iv);
   }, []);
 
@@ -45,9 +48,11 @@ export default function Admin({ t, loc }) {
               <p className="sub">{t("adm_s")}</p>
             </div>
           </div>
-          <button className="btn ghost" onClick={load}><RefreshCw size={14} /> {t("refresh")}</button>
+          <button type="button" className="btn ghost" onClick={load}><RefreshCw size={14} /> {t("refresh")}</button>
         </div>
       </div>
+
+      <BlockExplorer t={t} loc={loc} />
 
       <div className="tiles" style={{ marginBottom: 16 }}>
         <div className="card tile">
@@ -93,11 +98,11 @@ export default function Admin({ t, loc }) {
                 <b style={{ fontSize: 14 }}>{a.scheme_key.toUpperCase()} · {a.district}</b>
                 <p className="sub" style={{ margin: "2px 0 8px" }}>{t("reason_lbl")} {a.reason} · #{a.app_id.slice(0, 6)}</p>
                 <div className="row">
-                  <button className="btn" style={{ padding: "7px 13px", fontSize: 13 }}
+                  <button type="button" className="btn" style={{ padding: "7px 13px", fontSize: 13 }}
                     disabled={busyId === a.app_id} onClick={() => review(a.app_id, true)}>
                     <Check size={13} /> {t("approve")}
                   </button>
-                  <button className="btn danger" style={{ padding: "7px 13px", fontSize: 13 }}
+                  <button type="button" className="btn danger" style={{ padding: "7px 13px", fontSize: 13 }}
                     disabled={busyId === a.app_id} onClick={() => review(a.app_id, false)}>
                     <X size={13} /> {t("reject")}
                   </button>
@@ -111,9 +116,10 @@ export default function Admin({ t, loc }) {
       <div className="ledger" style={{ marginBottom: 16 }}>
         <div className="lhead"><Link2 size={13} /> {t("ledger_h")}</div>
         <h2 style={{ marginTop: 0, marginBottom: 14 }}>{t("ledger_s")}</h2>
+        <p className="sub" style={{ marginBottom: 12, color: "#9fb0d6" }}>{t("ledger_click")}</p>
         <div style={{ maxHeight: 360, overflow: "auto" }}>
           {ledger.map((e, i) => (
-            <div key={i} className="lentry">
+            <button key={i} type="button" className="lentry lentry-btn" onClick={() => setTxModal(e.tx_hash)}>
               <div className="la">{e.action}
                 <span className={"ltag " + (e.onchain ? "live" : "")}>{e.onchain ? "on-chain" : "simulated"}</span>
               </div>
@@ -122,7 +128,7 @@ export default function Admin({ t, loc }) {
                 {Object.entries(e.meta).map(([k, v]) => `${k}=${v}`).join(" · ")}
               </div>
               <div className="lh mono">{e.tx_hash}</div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -139,7 +145,7 @@ export default function Admin({ t, loc }) {
               [loc === "hi" ? "पारदर्शिता" : "Transparency", loc === "hi" ? "सीमित" : "limited", loc === "hi" ? "ऑन-चेन बही" : "on-chain ledger"],
               [loc === "hi" ? "सत्यापन समय" : "Verification time", loc === "hi" ? "विलंबित (दिन)" : "delayed (days)", loc === "hi" ? "AI रीयल-टाइम" : "AI real-time"],
               [loc === "hi" ? "योजना विखंडन" : "Scheme fragmentation", loc === "hi" ? "अधिक" : "high", loc === "hi" ? "एकीकृत पोर्टल" : "unified portal"],
-              [loc === "hi" ? "दस्तावेज़ धोखाधड़ी" : "Document fraud", loc === "hi" ? "मैनुअल जाँच" : "manual checks", loc === "hi" ? "AI पहचान + मानवीय समीक्षा" : "AI detection + human review"],
+              [loc === "hi" ? "दस्तावेज़ धोखाधड़ी" : "Document fraud", loc === "hi" ? "मैनुअल जाँच" : "manual checks", loc === "hi" ? "AI + मानवीय समीक्षा" : "AI + human review"],
               [loc === "hi" ? "प्रक्रिया चरण" : "Process steps", "~12", "~3"],
             ].map((r) => (
               <tr key={r[0]}><td>{r[0]}</td><td className="old">{r[1]}</td><td className="new">{r[2]}</td></tr>
@@ -147,6 +153,8 @@ export default function Admin({ t, loc }) {
           </tbody>
         </table>
       </div>
+
+      {txModal && <TxModal txHash={txModal} onClose={() => setTxModal(null)} t={t} loc={loc} />}
     </div>
   );
 }

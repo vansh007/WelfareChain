@@ -11,6 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .blockchain import bridge
+from .chain_api import chain_info, get_controller_events, get_recent_blocks, get_transaction
 from .chatbot import chat as chat_llm
 from .db import (Alert, Application, Document, GovRecord, LedgerEvent,
                  SessionLocal, SmsLog, User, Verification, Wallet, init_db)
@@ -68,10 +69,16 @@ class UserIn(BaseModel):
     assisted: bool = False
 
 
+class ChatMsg(BaseModel):
+    role: str
+    content: str
+
+
 class ChatIn(BaseModel):
     user_id: str
     message: str
     locale: str = "hi"
+    history: list[ChatMsg] = []
 
 
 class ApplyIn(BaseModel):
@@ -87,8 +94,31 @@ class ReviewIn(BaseModel):
 # ---------------- meta ----------------
 @app.get("/api/health")
 def health():
-    return {"ok": True, "chain": "live" if bridge.live else "simulated",
+    info = chain_info(bridge)
+    return {"ok": True, "chain": info["mode"],
+            "block_number": info.get("block_number"),
             "note": "Simulation prototype — synthetic data only."}
+
+
+@app.get("/api/chain/info")
+def chain_status():
+    return chain_info(bridge)
+
+
+@app.get("/api/chain/blocks")
+def chain_blocks(limit: int = 8):
+    return {"blocks": get_recent_blocks(bridge, min(limit, 20)), "mode": chain_info(bridge)["mode"]}
+
+
+@app.get("/api/chain/tx/{tx_hash}")
+def chain_tx(tx_hash: str):
+    return get_transaction(bridge, tx_hash)
+
+
+@app.get("/api/chain/events")
+def chain_events(limit: int = 20):
+    return {"events": get_controller_events(bridge, limit=min(limit, 50)),
+            "mode": chain_info(bridge)["mode"]}
 
 
 @app.get("/api/schemes")
@@ -156,7 +186,30 @@ def chat(body: ChatIn):
     try:
         u = db.get(User, body.user_id)
         profile = _profile(u) if u else {}
-        return chat_llm(profile, body.message, body.locale)
+        hist = [{"role": m.role, "content": m.content} for m in body.history[-8:]]
+        return chat_llm(profile, body.message, body.locale, history=hist)
+    finally:
+        db.close()
+
+
+@app.get("/api/users/{user_id}/applications")
+def user_applications(user_id: str):
+    """Citizen application history."""
+    db = SessionLocal()
+    try:
+        apps = (db.query(Application).filter_by(user_id=user_id)
+                .order_by(Application.created_at.desc()).limit(20).all())
+        out = []
+        for a in apps:
+            v = db.query(Verification).filter_by(app_id=a.id).order_by(Verification.created_at.desc()).first()
+            out.append({
+                "app_id": a.id, "scheme_key": a.scheme_key,
+                "amount": a.amount, "status": a.status,
+                "confidence": a.confidence,
+                "decision": v.decision if v else None,
+                "created_at": a.created_at.isoformat(),
+            })
+        return out
     finally:
         db.close()
 

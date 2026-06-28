@@ -9,6 +9,7 @@ import { UP_DISTRICTS, fmt } from "../i18n.js";
 import { docLabel, docsForScheme } from "../documents.js";
 import Chatbot from "./Chatbot.jsx";
 import DocumentGuide from "./DocumentGuide.jsx";
+import ApplicationHistory from "./ApplicationHistory.jsx";
 
 const SCHEME_ICONS = {
   "user-round": UserRound, "heart-handshake": HeartHandshake, accessibility: Accessibility,
@@ -183,8 +184,15 @@ export default function CitizenFlow({ t, loc, showToast, goAdmin, onStepChange, 
                 );
               })}
             </div>
-            <Chatbot t={t} loc={loc} userId={user.user_id} />
+            <Chatbot t={t} loc={loc} userId={user.user_id}
+              onApplyScheme={(key) => {
+                const s = schemes.find((x) => x.key === key);
+                const el = eligibilityOf(key);
+                if (s && el?.eligible) startApply(s);
+              }} />
           </div>
+
+          <ApplicationHistory t={t} loc={loc} userId={user.user_id} />
 
           <DocumentGuide t={t} loc={loc} compact />
         </div>
