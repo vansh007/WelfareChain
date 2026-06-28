@@ -1,0 +1,240 @@
+{
+  "UP-INC-1001": {
+    "holder_name": "Dinesh Pal",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1002": {
+    "holder_name": "Vikram Nishad",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1003": {
+    "holder_name": "Hari Om",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 90000
+  },
+  "UP-INC-1004": {
+    "holder_name": "Iqbal Ahmed",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 90000
+  },
+  "UP-INC-1005": {
+    "holder_name": "Ramesh Kumar",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1006": {
+    "holder_name": "Mohd. Salim",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 90000
+  },
+  "UP-INC-1007": {
+    "holder_name": "Suresh Yadav",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1008": {
+    "holder_name": "Raju Prasad",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1009": {
+    "holder_name": "Dinesh Pal",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 60000
+  },
+  "UP-INC-1010": {
+    "holder_name": "Vikram Nishad",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 60000
+  },
+  "UP-INC-1011": {
+    "holder_name": "Hari Om",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1012": {
+    "holder_name": "Iqbal Ahmed",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 48000
+  },
+  "UP-INC-1013": {
+    "holder_name": "Shanti Devi",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-INC-1014": {
+    "holder_name": "Dinesh Pal",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-INC-1015": {
+    "holder_name": "Phoolmati",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-INC-1016": {
+    "holder_name": "Vikram Nishad",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-INC-1017": {
+    "holder_name": "Meera Bano",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-INC-1018": {
+    "holder_name": "Hari Om",
+    "doc_type": "income",
+    "valid": true,
+    "declared_income": 180000
+  },
+  "UP-AAD-1019": {
+    "holder_name": "Vikram Nishad",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-AAD-1020": {
+    "holder_name": "Hari Om",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-AAD-1021": {
+    "holder_name": "Iqbal Ahmed",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-AAD-1022": {
+    "holder_name": "Ramesh Kumar",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-AAD-1023": {
+    "holder_name": "Geeta Verma",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-AAD-1024": {
+    "holder_name": "Mohd. Salim",
+    "doc_type": "aadhaar",
+    "valid": true
+  },
+  "UP-CST-1025": {
+    "holder_name": "Ramesh Kumar",
+    "doc_type": "caste",
+    "valid": true
+  },
+  "UP-CST-1026": {
+    "holder_name": "Mohd. Salim",
+    "doc_type": "caste",
+    "valid": true
+  },
+  "UP-CST-1027": {
+    "holder_name": "Suresh Yadav",
+    "doc_type": "caste",
+    "valid": true
+  },
+  "UP-CST-1028": {
+    "holder_name": "Raju Prasad",
+    "doc_type": "caste",
+    "valid": true
+  },
+  "UP-CST-1029": {
+    "holder_name": "Shanti Devi",
+    "doc_type": "caste",
+    "valid": true
+  },
+  "UP-RES-1030": {
+    "holder_name": "Anita Singh",
+    "doc_type": "residence",
+    "valid": true
+  },
+  "UP-RES-1031": {
+    "holder_name": "Shanti Devi",
+    "doc_type": "residence",
+    "valid": true
+  },
+  "UP-RES-1032": {
+    "holder_name": "Phoolmati",
+    "doc_type": "residence",
+    "valid": true
+  },
+  "UP-RES-1033": {
+    "holder_name": "Meera Bano",
+    "doc_type": "residence",
+    "valid": true
+  },
+  "UP-RES-1034": {
+    "holder_name": "Hari Om",
+    "doc_type": "residence",
+    "valid": true
+  },
+  "UP-DIS-1035": {
+    "holder_name": "Vikram Nishad",
+    "doc_type": "disability",
+    "valid": true
+  },
+  "UP-DIS-1036": {
+    "holder_name": "Hari Om",
+    "doc_type": "disability",
+    "valid": true
+  },
+  "UP-DIS-1037": {
+    "holder_name": "Iqbal Ahmed",
+    "doc_type": "disability",
+    "valid": true
+  },
+  "UP-DIS-1038": {
+    "holder_name": "Ramesh Kumar",
+    "doc_type": "disability",
+    "valid": true
+  },
+  "UP-DIS-1039": {
+    "holder_name": "Geeta Verma",
+    "doc_type": "disability",
+    "valid": true
+  },
+  "UP-RAT-1040": {
+    "holder_name": "Sunita Devi",
+    "doc_type": "ration",
+    "valid": true
+  },
+  "UP-RAT-1041": {
+    "holder_name": "Geeta Verma",
+    "doc_type": "ration",
+    "valid": true
+  },
+  "UP-RAT-1042": {
+    "holder_name": "Kamla Devi",
+    "doc_type": "ration",
+    "valid": true
+  },
+  "UP-RAT-1043": {
+    "holder_name": "Anita Singh",
+    "doc_type": "ration",
+    "valid": true
+  },
+  "UP-RAT-1044": {
+    "holder_name": "Raju Prasad",
+    "doc_type": "ration",
+    "valid": true
+  }
+}

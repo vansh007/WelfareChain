@@ -1,0 +1,414 @@
+{
+  "income_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1001",
+    "doc_type": "income",
+    "title": "Income certificate — Dinesh Pal",
+    "title_hi": "आय प्रमाण पत्र — Dinesh Pal",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1002",
+    "doc_type": "income",
+    "title": "Income certificate — Vikram Nishad",
+    "title_hi": "आय प्रमाण पत्र — Vikram Nishad",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1003",
+    "doc_type": "income",
+    "title": "Income certificate — Hari Om",
+    "title_hi": "आय प्रमाण पत्र — Hari Om",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "income_valid_04.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1004",
+    "doc_type": "income",
+    "title": "Income certificate — Iqbal Ahmed",
+    "title_hi": "आय प्रमाण पत्र — Iqbal Ahmed",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "income_valid_05.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1005",
+    "doc_type": "income",
+    "title": "Income certificate — Ramesh Kumar",
+    "title_hi": "आय प्रमाण पत्र — Ramesh Kumar",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_06.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1006",
+    "doc_type": "income",
+    "title": "Income certificate — Mohd. Salim",
+    "title_hi": "आय प्रमाण पत्र — Mohd. Salim",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "income_valid_07.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1007",
+    "doc_type": "income",
+    "title": "Income certificate — Suresh Yadav",
+    "title_hi": "आय प्रमाण पत्र — Suresh Yadav",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_08.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1008",
+    "doc_type": "income",
+    "title": "Income certificate — Raju Prasad",
+    "title_hi": "आय प्रमाण पत्र — Raju Prasad",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_09.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1009",
+    "doc_type": "income",
+    "title": "Income certificate — Dinesh Pal",
+    "title_hi": "आय प्रमाण पत्र — Dinesh Pal",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "income_valid_10.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1010",
+    "doc_type": "income",
+    "title": "Income certificate — Vikram Nishad",
+    "title_hi": "आय प्रमाण पत्र — Vikram Nishad",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "income_valid_11.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1011",
+    "doc_type": "income",
+    "title": "Income certificate — Hari Om",
+    "title_hi": "आय प्रमाण पत्र — Hari Om",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_valid_12.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-INC-1012",
+    "doc_type": "income",
+    "title": "Income certificate — Iqbal Ahmed",
+    "title_hi": "आय प्रमाण पत्र — Iqbal Ahmed",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "income_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1013",
+    "doc_type": "income",
+    "title": "Income certificate — Shanti Devi (edited)",
+    "title_hi": "आय प्रमाण पत्र — Shanti Devi (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "income_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1014",
+    "doc_type": "income",
+    "title": "Income certificate — Dinesh Pal (edited)",
+    "title_hi": "आय प्रमाण पत्र — Dinesh Pal (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "income_tampered_03.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1015",
+    "doc_type": "income",
+    "title": "Income certificate — Phoolmati (edited)",
+    "title_hi": "आय प्रमाण पत्र — Phoolmati (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "income_tampered_04.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1016",
+    "doc_type": "income",
+    "title": "Income certificate — Vikram Nishad (edited)",
+    "title_hi": "आय प्रमाण पत्र — Vikram Nishad (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "income_tampered_05.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1017",
+    "doc_type": "income",
+    "title": "Income certificate — Meera Bano (edited)",
+    "title_hi": "आय प्रमाण पत्र — Meera Bano (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "income_tampered_06.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-INC-1018",
+    "doc_type": "income",
+    "title": "Income certificate — Hari Om (edited)",
+    "title_hi": "आय प्रमाण पत्र — Hari Om (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": 55000,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "aadhaar_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-AAD-1019",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Vikram Nishad",
+    "title_hi": "आधार (नकली नमूना) — Vikram Nishad",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "aadhaar_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-AAD-1020",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Hari Om",
+    "title_hi": "आधार (नकली नमूना) — Hari Om",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "aadhaar_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-AAD-1021",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Iqbal Ahmed",
+    "title_hi": "आधार (नकली नमूना) — Iqbal Ahmed",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "aadhaar_valid_04.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-AAD-1022",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Ramesh Kumar",
+    "title_hi": "आधार (नकली नमूना) — Ramesh Kumar",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "aadhaar_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-AAD-1023",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Geeta Verma (edited)",
+    "title_hi": "आधार (नकली नमूना) — Geeta Verma (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "aadhaar_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-AAD-1024",
+    "doc_type": "aadhaar",
+    "title": "Aadhaar (simulated) — Mohd. Salim (edited)",
+    "title_hi": "आधार (नकली नमूना) — Mohd. Salim (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "caste_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-CST-1025",
+    "doc_type": "caste",
+    "title": "Caste certificate — Ramesh Kumar",
+    "title_hi": "जाति प्रमाण पत्र — Ramesh Kumar",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "caste_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-CST-1026",
+    "doc_type": "caste",
+    "title": "Caste certificate — Mohd. Salim",
+    "title_hi": "जाति प्रमाण पत्र — Mohd. Salim",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "caste_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-CST-1027",
+    "doc_type": "caste",
+    "title": "Caste certificate — Suresh Yadav",
+    "title_hi": "जाति प्रमाण पत्र — Suresh Yadav",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "caste_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-CST-1028",
+    "doc_type": "caste",
+    "title": "Caste certificate — Raju Prasad (edited)",
+    "title_hi": "जाति प्रमाण पत्र — Raju Prasad (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "caste_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-CST-1029",
+    "doc_type": "caste",
+    "title": "Caste certificate — Shanti Devi (edited)",
+    "title_hi": "जाति प्रमाण पत्र — Shanti Devi (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "residence_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RES-1030",
+    "doc_type": "residence",
+    "title": "Residence proof — Anita Singh",
+    "title_hi": "निवास प्रमाण — Anita Singh",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "residence_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RES-1031",
+    "doc_type": "residence",
+    "title": "Residence proof — Shanti Devi",
+    "title_hi": "निवास प्रमाण — Shanti Devi",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "residence_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RES-1032",
+    "doc_type": "residence",
+    "title": "Residence proof — Phoolmati",
+    "title_hi": "निवास प्रमाण — Phoolmati",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "residence_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-RES-1033",
+    "doc_type": "residence",
+    "title": "Residence proof — Meera Bano (edited)",
+    "title_hi": "निवास प्रमाण — Meera Bano (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "residence_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-RES-1034",
+    "doc_type": "residence",
+    "title": "Residence proof — Hari Om (edited)",
+    "title_hi": "निवास प्रमाण — Hari Om (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "disability_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-DIS-1035",
+    "doc_type": "disability",
+    "title": "Disability certificate — Vikram Nishad",
+    "title_hi": "दिव्यांग प्रमाण — Vikram Nishad",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "disability_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-DIS-1036",
+    "doc_type": "disability",
+    "title": "Disability certificate — Hari Om",
+    "title_hi": "दिव्यांग प्रमाण — Hari Om",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "disability_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-DIS-1037",
+    "doc_type": "disability",
+    "title": "Disability certificate — Iqbal Ahmed",
+    "title_hi": "दिव्यांग प्रमाण — Iqbal Ahmed",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "disability_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-DIS-1038",
+    "doc_type": "disability",
+    "title": "Disability certificate — Ramesh Kumar (edited)",
+    "title_hi": "दिव्यांग प्रमाण — Ramesh Kumar (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "disability_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-DIS-1039",
+    "doc_type": "disability",
+    "title": "Disability certificate — Geeta Verma (edited)",
+    "title_hi": "दिव्यांग प्रमाण — Geeta Verma (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "ration_valid_01.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RAT-1040",
+    "doc_type": "ration",
+    "title": "Ration card — Sunita Devi",
+    "title_hi": "राशन कार्ड — Sunita Devi",
+    "hint": "valid · certified sample",
+    "income": 48000
+  },
+  "ration_valid_02.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RAT-1041",
+    "doc_type": "ration",
+    "title": "Ration card — Geeta Verma",
+    "title_hi": "राशन कार्ड — Geeta Verma",
+    "hint": "valid · certified sample",
+    "income": 90000
+  },
+  "ration_valid_03.jpg": {
+    "tampered": false,
+    "doc_uid": "UP-RAT-1042",
+    "doc_type": "ration",
+    "title": "Ration card — Kamla Devi",
+    "title_hi": "राशन कार्ड — Kamla Devi",
+    "hint": "valid · certified sample",
+    "income": 60000
+  },
+  "ration_tampered_01.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-RAT-1043",
+    "doc_type": "ration",
+    "title": "Ration card — Anita Singh (edited)",
+    "title_hi": "राशन कार्ड — Anita Singh (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  },
+  "ration_tampered_02.jpg": {
+    "tampered": true,
+    "doc_uid": "UP-RAT-1044",
+    "doc_type": "ration",
+    "title": "Ration card — Raju Prasad (edited)",
+    "title_hi": "राशन कार्ड — Raju Prasad (बदला हुआ)",
+    "hint": "tampered · AI should flag",
+    "income": null,
+    "meta_software": "PhotoEditPro 3.1 (edited)"
+  }
+}
